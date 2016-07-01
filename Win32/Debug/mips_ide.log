@@ -1,0 +1,38 @@
+﻿生成启动时间为 2016/4/28 22:28:32。
+     1>项目“D:\mips_ide\mips_ide.vcxproj”在节点 2 上(Build 个目标)。
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(935,5): warning MSB8027: Two or more files with the name of moc_mainwindow.cpp will produce outputs to the same location. This can lead to an incorrect build result.  The files involved are GeneratedFiles\Debug\moc_mainwindow.cpp, GeneratedFiles\Release\moc_mainwindow.cpp.
+     1>ClCompile:
+         G:\vs2013\VC\bin\CL.exe /c /I. /IG:\qtforvs2013\5.6\msvc2013\include /IG:\qtforvs2013\5.6\msvc2013\include\QtWidgets /IG:\qtforvs2013\5.6\msvc2013\include\QtGui /IG:\qtforvs2013\5.6\msvc2013\include\QtANGLE /IG:\qtforvs2013\5.6\msvc2013\include\QtCore /Idebug /I. /I"G:\qtforvs2013\5.6\msvc2013\mkspecs\win32-msvc2013" /I.\GeneratedFiles /Zi /nologo /W3 /WX- /Od /Oy- /D _WINDOWS /D UNICODE /D WIN32 /D QT_WIDGETS_LIB /D QT_GUI_LIB /D QT_CORE_LIB /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"Win32\Debug\\" /Fd"Win32\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt -w34100 -w34189 -w44996 GeneratedFiles\Debug\moc_mainwindow.cpp main.cpp mainwindow.cpp mips.cpp mips_utl.cpp mipscoe.cpp
+         moc_mainwindow.cpp
+         main.cpp
+         mainwindow.cpp
+         mips.cpp
+     1>mips.cpp(41): warning C4018: “<”: 有符号/无符号不匹配
+     1>mips.cpp(52): warning C4100: “begin”: 未引用的形参
+     1>mips.cpp(57): warning C4100: “offset”: 未引用的形参
+     1>mips.cpp(61): warning C4100: “offset”: 未引用的形参
+     1>mips.cpp(66): warning C4018: “<”: 有符号/无符号不匹配
+     1>mips.cpp(126): warning C4018: “<”: 有符号/无符号不匹配
+     1>mips.cpp(93): warning C4189: “incr”: 局部变量已初始化但不引用
+     1>mips.cpp(134): warning C4018: “<”: 有符号/无符号不匹配
+     1>mips.cpp(136): warning C4189: “pos”: 局部变量已初始化但不引用
+         mips_utl.cpp
+     1>mips_utl.cpp(490): warning C4100: “pc”: 未引用的形参
+     1>mips_utl.cpp(525): warning C4101: “rt”: 未引用的局部变量
+     1>mips_utl.cpp(646): warning C4101: “rs”: 未引用的局部变量
+         mipscoe.cpp
+         正在生成代码...
+     1>d:\mips_ide\mips_utl.cpp(628): warning C4700: 使用了未初始化的局部变量“code”
+       Link:
+         G:\vs2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"debug\\mips_ide.exe" /NOLOGO /LIBPATH:G:\qtforvs2013\5.6\msvc2013\lib /LIBPATH:C:\utils\postgresql\pgsql\lib /LIBPATH:C:\utils\my_sql\my_sql\lib /LIBPATH:G:\qtforvs2013\5.6\msvc2013\lib G:\qtforvs2013\5.6\msvc2013\lib\qtmaind.lib shell32.lib G:\qtforvs2013\5.6\msvc2013\lib\Qt5Widgetsd.lib G:\qtforvs2013\5.6\msvc2013\lib\Qt5Guid.lib G:\qtforvs2013\5.6\msvc2013\lib\Qt5Cored.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"debug\mips_ide.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /SAFESEH "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" Win32\Debug\moc_mainwindow.obj
+         Win32\Debug\main.obj
+         Win32\Debug\mainwindow.obj
+         Win32\Debug\mips.obj
+         Win32\Debug\mips_utl.obj
+         Win32\Debug\mipscoe.obj
+         mips_ide.vcxproj -> D:\mips_ide\debug\mips_ide.exe
+     1>已完成生成项目“D:\mips_ide\mips_ide.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:04.88

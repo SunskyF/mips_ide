@@ -1,0 +1,158 @@
+#include "mips.h"
+#include <QDebug>
+#include <QRegExp>
+#include <QMessageBox>
+
+Mips::Mips(){
+    labels.clear();
+    location.clear();
+    bincode.clear();
+}
+
+Mips::Mips(const Mips &m){
+    labels=m.labels;
+}
+
+Mips::Mips(QTextStream &in){
+    labels.clear();
+    location.clear();
+    bincode.clear();
+    while (!in.atEnd()){
+        QString temp=in.readLine();
+        if (!temp.isEmpty()&&!allspace(temp)){
+            labels.push_back(temp);
+        }
+    }
+}
+Mips& Mips::operator=(const Mips m){
+    labels=m.labels;
+}
+bool Mips::isempty(){
+    return labels.empty();
+}
+
+void Mips::clear(){
+    labels.clear();
+    location.clear();
+    bincode.clear();
+}
+void Mips::debugshow(){
+    for (int i=0;i<labels.size();++i)
+        qDebug()<<bincode[i];
+}
+QString Mips::getBincode(int index){
+    return bincode[index];
+}
+
+int Mips::length(){
+    return bincode.size();
+}
+
+int Mips::doData(int begin){
+    int diff=0;
+
+    return diff;
+}
+
+void Mips::firstprase(){
+    for (int i=0;i<labels.size();++i){
+        QRegExp rxforcom(".*(#|//)(.*)");
+        int pos=rxforcom.indexIn(labels[i]);
+//        qDebug()<<rxforcom.cap(1)+rxforcom.cap(2);
+        if (pos>-1){
+            QRegExp rxforad("(\\s*)([0-9a-zA-Z]*)");
+            pos=rxforcom.pos(2)+rxforcom.cap(2).length();
+            if (rxforcom.cap(2)=="BaseAddre"){
+                rxforad.indexIn(labels[i],pos);
+                textbegin=rxforad.cap(2).toLongLong();
+                qDebug()<<textbegin;
+            }else if (rxforcom.cap(2)=="DataAddre"){
+                rxforad.indexIn(labels[i],pos);
+                databegin=rxforad.cap(2).toLongLong();
+                qDebug()<<databegin;
+            }
+            labels[i].replace(QRegExp("(#|//).*"), "");
+        }
+
+        QRegExp rxfotspace("(\\s*)(.*)");
+        pos = rxfotspace.indexIn(labels[i]);
+        if (pos > -1) {
+            labels[i] = rxfotspace.cap(2);
+        }
+        if (labels[i]==".data"){
+            labels.erase(labels.begin()+i);
+            i--;
+            int incr=doData(i);
+            continue;
+        }else if (labels[i]==".text"){
+            labels.erase(labels.begin()+i);
+            i--;
+            continue;
+        }
+        QRegExp rxforlabel(".*:");
+        pos = rxforlabel.indexIn(labels[i]);
+        if (pos > -1) {
+            rxforlabel.setPattern(".*");
+            rxforlabel.indexIn(labels[i]);
+            if (location[rxforlabel.cap(0)]){
+                qDebug()<<"Existing line";
+                return;
+            }
+            location[rxforlabel.cap(0)]=linenum;
+            qDebug()<<rxforlabel.cap(0)<<linenum;
+            labels[i].replace(QRegExp(".*:"), "");
+        }
+        QRegExp rxforline(".*;");
+        pos = rxforline.indexIn(labels[i]);
+        if (pos > -1) {
+            labels[i] = rxforline.cap(0);
+            linenum++;
+            labels[i].replace(QRegExp(";"),"");
+        }
+        if (labels[i].isEmpty()||allspace(labels[i])){
+            labels.erase(labels.begin()+i);
+            i--;
+        }
+    }
+    for (int i=0;i<labels.size();++i){
+        qDebug()<<labels[i];
+    }
+}
+
+void Mips::secondprase(){
+    std::map<QString,int> inst_set;
+    getTheMap(inst_set);
+    for (int i=0;i<labels.size();++i){
+        QRegExp rx("\\w*");
+        int pos = rx.indexIn(labels[i]);
+        QString ins=rx.cap(0).toUpper();
+        int instcode=inst_set[ins];
+        if (instcode==0&&ins!=QString("LW")){
+            qDebug()<<"error"<<labels[i];
+            return;
+        }
+        if (instcode<=5){
+            bincode.push_back(lfunc(instcode,labels[i]));
+        }else if (instcode<=8){
+            bincode.push_back(sfunc(instcode,labels[i]));
+        }else if (instcode<=21){
+            bincode.push_back(alurfunc(instcode,labels[i]));
+        }else if (instcode<=25){
+            bincode.push_back(muldivfunc(instcode,labels[i]));
+        }else if (instcode<=33){
+            bincode.push_back(aluifunc(instcode,labels[i]));
+        }else if (instcode<=39){
+            bincode.push_back(branchfunc(instcode,labels[i],i,location));
+        }else if (instcode<=43){
+            bincode.push_back(transfunc(instcode,labels[i],i,textbegin,location));
+        }else if (instcode<=47){
+            bincode.push_back(trfunc(instcode,labels[i]));
+        }else if (instcode<=50){
+            bincode.push_back(pfunc(instcode,labels[i]));
+        }else if (instcode<=52){
+            bincode.push_back(trapfunc(instcode,labels[i]));
+        }else if (instcode<=55){
+            bincode.push_back(pesfunc(instcode,labels[i]));
+        }
+    }
+}
